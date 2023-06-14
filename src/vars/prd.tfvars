@@ -9,7 +9,7 @@ subnet = "AzureBastionSubnet"
 vms = {
   windows = {
     test_vm = {
-
+      
     }
   }
 }

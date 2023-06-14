@@ -15,8 +15,5 @@ variable "subnet" {
 }
 
 variable "vms" {
-  type = object({
-    address_space = string
-    subnet_size   = number
-  })
+  type = map(map(string))
 }
