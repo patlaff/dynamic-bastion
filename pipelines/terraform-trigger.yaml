@@ -1,0 +1,25 @@
+trigger: none
+
+parameters:
+- name: env
+  displayName: Environment
+  type: string
+  default: dev
+  values:
+  - dev
+  - prd
+- name: terraformCmd
+  displayName: Terraform Command
+  type: string
+  default: plan
+  values:
+  - plan
+  - apply
+  - plan-destroy
+  - destroy
+
+extends:
+  template: terraform.yaml
+  parameters:
+    env: ${{ parameters.env }}
+    terraformCmd: ${{ parameters.terraformCmd }}

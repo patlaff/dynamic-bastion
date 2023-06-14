@@ -1,10 +1,10 @@
 data "azurerm_client_config" "current" {}
 
 data "azurerm_resources" "existing_vms" {
-  depends_on = [
-    module.linux-vms,
-    module.windows-vms
-  ]
+  # depends_on = [
+  #   module.linux-vms,
+  #   module.windows-vms
+  # ]
   type = "Microsoft.Compute"
 }
 

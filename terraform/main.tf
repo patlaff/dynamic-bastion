@@ -26,6 +26,7 @@ module "windows-vms" {
   source              = "./modules/windows-vm"
   vm_name             = each.key
   vm_size             = each.value.vm_size
+  # disk_size           = each.value.disk_size
   location            = data.azurerm_resource_group.existing_rg.location
   resource_group_name = data.azurerm_resource_group.existing_rg.name
   subnet              = data.azurerm_subnet.existing_subnet
@@ -38,6 +39,7 @@ module "linux-vms" {
   source              = "./modules/linux-vm"
   vm_name             = each.key
   vm_size             = each.value.vm_size
+  # disk_size           = each.value.disk_size
   location            = data.azurerm_resource_group.existing_rg.location
   resource_group_name = data.azurerm_resource_group.existing_rg.name
   subnet              = data.azurerm_subnet.existing_subnet
