@@ -5,21 +5,28 @@ resource "azurerm_network_interface" "this" {
 
   ip_configuration {
     name                          = format("%s-ip", var.vm_name)
-    subnet_id                     = var.subnet_id
+    subnet_id                     = var.subnet.id
     private_ip_address_allocation = "Dynamic"
   }
+
+  tags = var.common_tags
 }
 
-resource "azurerm_windows_virtual_machine" "this" {
+resource "azurerm_linux_virtual_machine" "this" {
   name                = var.vm_name
-  resource_group_name = azurerm_resource_group.example.name
-  location            = azurerm_resource_group.example.location
+  location            = var.location
+  resource_group_name = var.resource_group_name
   size                = var.vm_size
   admin_username      = "adminuser"
-  admin_password      = "P@$$w0rd1234!"
+
   network_interface_ids = [
     azurerm_network_interface.this.id,
   ]
+
+  # admin_ssh_key {
+  #   username = "adminuser"
+  #   public_key = file("~/.ssh/id_rsa.pub")
+  # } 
 
   os_disk {
     caching              = "ReadWrite"
@@ -27,9 +34,11 @@ resource "azurerm_windows_virtual_machine" "this" {
   }
 
   source_image_reference {
-    publisher = "MicrosoftWindowsServer"
-    offer     = "WindowsServer"
-    sku       = "2022-Datacenter"
+    publisher = "Canonical"
+    offer     = "0001-com-ubuntu-server-focal"
+    sku       = "20_04-lts"
     version   = "latest"
   }
+
+  tags = var.common_tags
 }

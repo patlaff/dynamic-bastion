@@ -8,8 +8,15 @@ subnet = "AzureBastionSubnet"
 
 vms = {
   windows = {
-    test_vm = {
-      
+    test_windows_vm = {
+      vm_size      = "Standard_B2s"
+      disk_size_gb = "250"
+    }
+  }
+  linux = {
+    test_linux_vm = {
+      vm_size      = "Standard_B2s"
+      disk_size_gb = "250"
     }
   }
 }

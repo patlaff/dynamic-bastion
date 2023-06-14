@@ -15,5 +15,8 @@ variable "subnet" {
 }
 
 variable "vms" {
-  type = map(map(string))
+  type = map(map(object({
+    vm_size      = string
+    disk_size_gb = string
+  })))
 }

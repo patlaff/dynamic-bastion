@@ -2,7 +2,8 @@ data "azurerm_client_config" "current" {}
 
 data "azurerm_resources" "existing_vms" {
   depends_on = [
-
+    module.linux-vms,
+    module.windows-vms
   ]
   type = "Microsoft.Compute"
 }
@@ -17,7 +18,7 @@ data "azurerm_virtual_network" "existing_vnet" {
 }
 
 data "azurerm_subnet" "existing_subnet" {
-  name = var.subnet
+  name                 = var.subnet
   virtual_network_name = data.azurerm_virtual_network.existing_vnet.name
-  resource_group_name = data.azurerm_virtual_network.existing_vnet.resource_group_name
+  resource_group_name  = data.azurerm_virtual_network.existing_vnet.resource_group_name
 }
