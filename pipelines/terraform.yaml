@@ -117,7 +117,20 @@ stages:
 
     - task: TerraformTaskV2@2
       name: terraformApply
-      displayName: 'Terraform apply'
+      displayName: 'Terraform apply VMs'
+      condition: eq('${{ parameters.terraformCmd }}', 'apply')
+      inputs:
+        provider: 'azurerm'
+        command: 'apply'
+        workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+        commandOptions: '-auto-approve -var-file="vars/${{ parameters.env }}.tfvars" -target="module.windows-vms" -target="module.linux-vms"'
+        environmentServiceNameAzureRM: $(azureServiceConnection)
+      env: 
+        TF_VAR_rg_name: $(backendAzureRmResourceGroupName)
+
+    - task: TerraformTaskV2@2
+      name: terraformApply
+      displayName: 'Terraform apply all'
       condition: eq('${{ parameters.terraformCmd }}', 'apply')
       inputs:
         provider: 'azurerm'
