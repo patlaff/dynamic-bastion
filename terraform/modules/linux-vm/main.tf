@@ -12,23 +12,32 @@ resource "azurerm_network_interface" "this" {
   tags = var.common_tags
 }
 
+resource "tls_private_key" "ssh" {
+  algorithm = "RSA"
+  rsa_bits  = "4096"
+}
+
+resource "azurerm_key_vault_secret" "this" {
+  name         = format("%s-key", var.vm_name)
+  value        = tls_private_key.ssh.public_key_openssh
+  key_vault_id = var.key_vault.id
+}
+
 resource "azurerm_linux_virtual_machine" "this" {
   name                = var.vm_name
   location            = var.location
   resource_group_name = var.resource_group_name
   size                = var.vm_size
-  admin_username      = "adminuser"
-  admin_password      = "P@$$w0rd1234!"
-  disable_password_authentication = false
+  admin_username      = var.admin_username
 
   network_interface_ids = [
     azurerm_network_interface.this.id,
   ]
 
-  # admin_ssh_key {
-  #   username = "adminuser"
-  #   public_key = file("~/.ssh/id_rsa.pub")
-  # } 
+  admin_ssh_key {
+    username = var.admin_username
+    public_key = azurerm_key_vault_secret.this.value
+  } 
 
   os_disk {
     caching              = "ReadWrite"

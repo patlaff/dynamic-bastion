@@ -12,16 +12,18 @@ variable "vnet" {
 
 variable "windows_vms" {
   type = map(object({
-    subnet_name  = string
-    vm_size      = string
-    disk_size_gb = string
+    subnet_name    = string
+    vm_size        = string
+    disk_size_gb   = string
+    admin_username = string
   }))
 }
 
 variable "linux_vms" {
   type = map(object({
-    subnet_name  = string
-    vm_size      = string
-    disk_size_gb = string
+    subnet_name    = string
+    vm_size        = string
+    disk_size_gb   = string
+    admin_username = string
   }))
 }
