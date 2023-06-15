@@ -5,6 +5,12 @@ locals {
     managedBy = "Terraform"
   }
 
-  existing_vms = data.azurerm_resources.existing_vms.resources
-  vm_count     = length(local.existing_vms)
+  check_for = [
+    "Microsoft.Compute/virtualMachines",
+    "Microsoft.Compute/virtualMachineScaleSets"
+  ]
+
+  existing_vms  = data.azurerm_resources.existing_vms.resources
+  existing_vmss = data.azurerm_resources.existing_vmss.resources
+  vm_count      = length(local.existing_vms) + length(local.existing_vmss)
 }

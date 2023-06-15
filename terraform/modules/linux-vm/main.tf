@@ -5,7 +5,7 @@ resource "azurerm_network_interface" "this" {
 
   ip_configuration {
     name                          = format("%s-ip", var.vm_name)
-    subnet_id                     = var.subnet.id
+    subnet_id                     = data.azurerm_subnet.vm_subnet.id
     private_ip_address_allocation = "Dynamic"
   }
 
@@ -18,6 +18,8 @@ resource "azurerm_linux_virtual_machine" "this" {
   resource_group_name = var.resource_group_name
   size                = var.vm_size
   admin_username      = "adminuser"
+  admin_password      = "P@$$w0rd1234!"
+  disable_password_authentication = false
 
   network_interface_ids = [
     azurerm_network_interface.this.id,
@@ -31,6 +33,7 @@ resource "azurerm_linux_virtual_machine" "this" {
   os_disk {
     caching              = "ReadWrite"
     storage_account_type = "Standard_LRS"
+    disk_size_gb         = var.disk_size_gb
   }
 
   source_image_reference {

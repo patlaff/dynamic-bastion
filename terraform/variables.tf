@@ -10,13 +10,18 @@ variable "vnet" {
   type = string
 }
 
-variable "subnet" {
-  type = string
-}
-
-variable "vms" {
-  type = map(map(object({
+variable "windows_vms" {
+  type = map(object({
+    subnet_name  = string
     vm_size      = string
     disk_size_gb = string
-  })))
+  }))
+}
+
+variable "linux_vms" {
+  type = map(object({
+    subnet_name  = string
+    vm_size      = string
+    disk_size_gb = string
+  }))
 }
